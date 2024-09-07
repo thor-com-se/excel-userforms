@@ -1,0 +1,13 @@
+[
+    "../../library/form/setup",
+    "../../library/form/sizes",
+    "inputs/header",
+    "inputs/options/*",
+    "inputs/list",
+    "inputs/divider",
+    "inputs/buttons/*",
+    "initialize",
+    "../../library/form/close",
+    "../../library/form/show",
+    "../../library/components/*"
+]

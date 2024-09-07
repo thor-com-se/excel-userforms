@@ -1,4 +1,4 @@
-' resources/form/setup.txt =========================================================================
+' resources/library/form/setup.txt =================================================================
 
 Sub OpenForm(Optional zoomLevel as Long = 1.4)
     Dim ThisForm As Object
@@ -29,7 +29,7 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     'Set width of form
     ThisForm.Properties("Width") = FormWidth
 
-' resources/form/sizes.txt =========================================================================
+' resources/library/form/sizes.txt =================================================================
 
     'Set font height
     Dim FontHeight As Long
@@ -75,13 +75,13 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     Dim ButtonWidth As Long
     ButtonWidth = FontSize * 10
 
-' resources/open-links/inputs/header.txt ===========================================================
+' resources/userforms/open-links/inputs/header.txt =================================================
 
     AddBackgroundFill ThisForm.designer, color:=RGB(33, 115, 70), top:=0, left:=0, width:=FormWidth, height:=HeaderHeight
     AddLabel ThisForm.designer, caption:="Open links in default browser", top:=HeaderHeight - FontSize * 2 - Margin, left:=Margin, width:=ContentWidth, height:=FontSize * 2, bold:=True, font:=FontSize * 1.5, color:=RGB(255, 255, 255)
     FormHeight = FormHeight + HeaderHeight
 
-' resources/open-links/inputs/options/event-handlers.txt ===========================================
+' resources/userforms/open-links/inputs/options/event-handlers.txt =================================
 
     InjectCode ThisForm, "Private Sub ComboBoxColumn_Change()"
     InjectCode ThisForm, " Dim wb As Workbook"
@@ -311,7 +311,7 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     InjectCode ThisForm, " End If"
     InjectCode ThisForm, "End Sub"
 
-' resources/open-links/inputs/options/options.txt ==================================================
+' resources/userforms/open-links/inputs/options/options.txt ========================================
 
     OptionWidth = (FormWidth - Margin * 1.5 - Margin * 5) / 5 'Set width of options
     FormHeight = FormHeight + Margin * 2
@@ -328,19 +328,19 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     AddComboBox ThisForm.designer, name:="ComboBoxDomainFilter", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 4, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
     FormHeight = FormHeight + InputHeight
 
-' resources/open-links/inputs/list.txt =============================================================
+' resources/userforms/open-links/inputs/list.txt ===================================================
 
     ListHeight = FontSize * 12 'Set list height
     FormHeight = FormHeight + Margin
     AddListBox ThisForm.designer, name:="ListLinks", top:=FormHeight, left:=Margin, width:=ContentWidth, height:=ListHeight, font:=FontSize
     FormHeight = FormHeight + ListHeight + Margin
 
-' resources/open-links/inputs/divider.txt ==========================================================
+' resources/userforms/open-links/inputs/divider.txt ================================================
 
     AddHorizontalLine ThisForm.designer, top:=FormHeight, left:=0, width:=FormWidth, height:=DividerHeight
     FormHeight = FormHeight + DividerHeight
 
-' resources/open-links/inputs/buttons/buttons.txt ==================================================
+' resources/userforms/open-links/inputs/buttons/buttons.txt ========================================
 
     AddBackgroundFill ThisForm.designer, color:=RGB(245, 245, 245), top:=FormHeight, left:=0, width:=FormWidth, height:=FormHeight + Margin + InputHeight + Margin
     FormHeight = FormHeight + Margin
@@ -349,7 +349,7 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     AddButton ThisForm.designer, name:="ButtonExitDocument", caption:="Exit document", top:=FormHeight, left:=FormWidth - Margin * 1.5 - ButtonWidth, width:=ButtonWidth, height:=InputHeight, font:=FontSize
     FormHeight = FormHeight + Margin + InputHeight + Margin + Margin
 
-' resources/open-links/inputs/buttons/event-handlers.txt ===========================================
+' resources/userforms/open-links/inputs/buttons/event-handlers.txt =================================
 
     InjectCode ThisForm, "Private Sub ButtonOpenLinks_Click()"
     InjectCode ThisForm, "    Dim i As Long"
@@ -382,7 +382,7 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     InjectCode ThisForm, "    Application.Quit"
     InjectCode ThisForm, "End Sub"
 
-' resources/open-links/initialize.txt ==============================================================
+' resources/userforms/open-links/initialize.txt ====================================================
 
     InjectCode ThisForm, "Private Sub UserForm_Initialize()"
     InjectCode ThisForm, "   Dim wb as Workbook"
@@ -393,7 +393,7 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     InjectCode ThisForm, "   Me.ComboBoxFile.Enabled = True"
     InjectCode ThisForm, "End Sub"
 
-' resources/form/close.txt =========================================================================
+' resources/library/form/close.txt =================================================================
 
     InjectCode ThisForm, "Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)"
     InjectCode ThisForm, "    If CloseMode = vbFormControlMenu Then"
@@ -402,7 +402,7 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     InjectCode ThisForm, "    End If"
     InjectCode ThisForm, "End Sub"
 
-' resources/form/show.txt ==========================================================================
+' resources/library/form/show.txt ==================================================================
 
     'Set width of form
     ThisForm.Properties("Height") = FormHeight
@@ -414,7 +414,7 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
     ThisWorkbook.VBProject.VBComponents.Remove ThisForm
 End Sub
 
-' resources/components/background-fill.txt =========================================================
+' resources/library/components/background-fill.txt =================================================
 
 Sub AddBackgroundFill(obj As Object, color As Long, top As Long, left As Long, width As Long, height As Long)
     Dim NewBackgroundFill As MSForms.Label
@@ -428,7 +428,7 @@ Sub AddBackgroundFill(obj As Object, color As Long, top As Long, left As Long, w
     End With
 End Sub
 
-' resources/components/browse.txt ==================================================================
+' resources/library/components/browse.txt ==========================================================
 
 Sub AddBrowse(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
     Dim ButtonWidth As Long
@@ -483,7 +483,7 @@ Sub AddBrowse(obj As Object, name As String, top As Long, left As Long, width As
     End With
 End Sub
 
-' resources/components/button.txt ==================================================================
+' resources/library/components/button.txt ==========================================================
 
 Sub AddButton(obj As Object, name As String, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
     Dim NewButton As MSForms.CommandButton
@@ -504,7 +504,7 @@ Sub AddButton(obj As Object, name As String, caption As String, top As Long, lef
     End With
 End Sub
 
-' resources/components/combo-box.txt ===============================================================
+' resources/library/components/combo-box.txt =======================================================
 
 Sub AddComboBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty)
     Dim NewComboBox As MSForms.ComboBox
@@ -526,7 +526,7 @@ Sub AddComboBox(obj As Object, name As String, top As Long, left As Long, width 
     End With
 End Sub
 
-' resources/components/horizontal-line.txt =========================================================
+' resources/library/components/horizontal-line.txt =================================================
 
 Sub AddHorizontalLine(obj As Object, top As Long, left As Long, width As Long, height As Long)
     Dim NewHorizontalLine As MSForms.Label
@@ -540,7 +540,7 @@ Sub AddHorizontalLine(obj As Object, top As Long, left As Long, width As Long, h
     End With
 End Sub
 
-' resources/components/inject-code.txt =============================================================
+' resources/library/components/inject-code.txt =====================================================
 
 Sub InjectCode(form As Object, code As String, Optional deepInject As Boolean = False)
     With form.CodeModule
@@ -569,7 +569,7 @@ Sub InjectCode(form As Object, code As String, Optional deepInject As Boolean = 
     End With
 End Sub
 
-' resources/components/label.txt ===================================================================
+' resources/library/components/label.txt ===========================================================
 
 Sub AddLabel(obj As Object, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional bold As Boolean = False, Optional color As Long = -1)
     If color = -1 Then
@@ -594,7 +594,7 @@ Sub AddLabel(obj As Object, caption As String, top As Long, left As Long, width 
     End With
 End Sub
 
-' resources/components/list-box.txt ================================================================
+' resources/library/components/list-box.txt ========================================================
 
 Sub AddListBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty, Optional value As Variant = Empty)
     Dim NewListBox As MSForms.ListBox
@@ -619,7 +619,7 @@ Sub AddListBox(obj As Object, name As String, top As Long, left As Long, width A
     End With
 End Sub
 
-' resources/components/option-box.txt ==============================================================
+' resources/library/components/option-box.txt ======================================================
 
 Sub AddOptionBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
     Dim NewBox As MSForms.Label
@@ -647,7 +647,7 @@ Sub AddOptionBox(obj As Object, name As String, top As Long, left As Long, width
     End With
 End Sub
 
-' resources/components/option-button.txt ===========================================================
+' resources/library/components/option-button.txt ===================================================
 
 Sub AddOptionButton(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
     Dim NewOptionButton As MSForms.OptionButton
@@ -665,7 +665,7 @@ Sub AddOptionButton(obj As Object, name As String, top As Long, left As Long, wi
     End With
 End Sub
 
-' resources/components/text-box.txt ================================================================
+' resources/library/components/text-box.txt ========================================================
 
 Sub AddTextBox(obj As Object, name As String, placeholder As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
     Dim NewTextBox As MSForms.TextBox

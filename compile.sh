@@ -87,7 +87,7 @@ process_path() {
 # Loop over all folders in the "resources" directory
 echo "Processing folders in 'resources' directory..."
 
-for folder in resources/*; do
+for folder in resources/userforms/*; do
     # Check if the folder contains a .json file
     for json_file in "$folder"/*.json; do
         if [[ -f "$json_file" ]]; then
@@ -106,8 +106,11 @@ for folder in resources/*; do
 
             # Loop over each file path in the JSON array
             for path in $file_paths; do
-                # Handle paths starting with '../' (step one level up)
-                if [[ "$path" == ../* ]]; then
+                # Handle paths with '../../' (step two levels up)
+                if [[ "$path" == ../../* ]]; then
+                    normalized_path="resources/${path#../../}"
+                # Handle paths with '../' (step one level up)
+                elif [[ "$path" == ../* ]]; then
                     normalized_path="resources/${path#../}"
                 else
                     normalized_path="$folder/$path"
