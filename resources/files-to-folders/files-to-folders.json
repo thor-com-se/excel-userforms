@@ -1,7 +1,7 @@
 [
-    "../functions/*",
     "../form/setup",
     "../form/sizes",
+    "../methods/*",
     "inputs/header/*",
     "inputs/import/*",
     "inputs/divider1",
@@ -10,5 +10,6 @@
     "inputs/buttons/*",
     "initialize",
     "../form/close",
-    "../form/show"
+    "../form/show",
+    "../components/*"
 ]

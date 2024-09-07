@@ -1,274 +1,3 @@
-' resources/functions/background-fill.txt ==========================================================
-
-Sub AddBackgroundFill(obj As Object, color As Long, top As Long, left As Long, width As Long, height As Long)
-    Dim NewBackgroundFill As MSForms.Label
-    Set NewBackgroundFill = obj.Controls.Add("Forms.Label.1")
-    With NewBackgroundFill
-        .backColor = color
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-    End With
-End Sub
-
-' resources/functions/browse.txt ===================================================================
-
-Sub AddBrowse(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
-    Dim ButtonWidth As Long
-    ButtonWidth = 6 * font
-
-    Dim LabelWidth As Long
-    LabelWidth = width - ButtonWidth
-    
-    Dim NewBox As MSForms.Label
-    Set NewBox = obj.Controls.Add("Forms.Label.1")
-    With NewBox
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        .BackStyle = fmBackStyleTransparent
-        .BorderStyle = fmBorderStyleSingle
-        .BorderColor = RGB(225, 225, 225)
-    End With
-    
-    Dim NewLabel As MSForms.Label
-    Set NewLabel = obj.Controls.Add("Forms.Label.1")
-    With NewLabel
-        .caption = "/path/to/folder"
-        .top = top + font / 3
-        .left = left + font / 4 * 3
-        .width = width
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        .BackStyle = fmBackStyleTransparent
-        .ForeColor = RGB(225, 225, 225)
-    End With
-    
-    Dim NewButton As MSForms.CommandButton
-    Set NewButton = obj.Controls.Add("Forms.CommandButton.1")
-    With NewButton
-        .name = name
-        .caption = "Browse"
-        .Accelerator = "M"
-        .top = top
-        .left = left + LabelWidth
-        .width = ButtonWidth
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        .backColor = RGB(255, 255, 255)
-        .ForeColor = RGB(0, 0, 0)
-        .enabled = enabled
-    End With
-End Sub
-
-' resources/functions/button.txt ===================================================================
-
-Sub AddButton(obj As Object, name As String, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
-    Dim NewButton As MSForms.CommandButton
-    Set NewButton = obj.Controls.Add("Forms.CommandButton.1")
-    With NewButton
-        .name = name
-        .caption = caption
-        .Accelerator = "M"
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        .backColor = RGB(255, 255, 255)
-        .ForeColor = RGB(0, 0, 0)
-        .enabled = enabled
-    End With
-End Sub
-
-' resources/functions/combo-box.txt ================================================================
-
-Sub AddComboBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty)
-    Dim NewComboBox As MSForms.ComboBox
-    Set NewComboBox = obj.Controls.Add("Forms.ComboBox.1")
-    With NewComboBox
-        .name = name
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        .BackStyle = fmBackStyleOpaque
-        .enabled = enabled
-        
-        If Not IsEmpty(listItems) Then
-            .List = listItems
-        End If
-    End With
-End Sub
-
-' resources/functions/horizontal-line.txt ==========================================================
-
-Sub AddHorizontalLine(obj As Object, top As Long, left As Long, width As Long, height As Long)
-    Dim NewHorizontalLine As MSForms.Label
-    Set NewHorizontalLine = obj.Controls.Add("Forms.Label.1")
-    With NewHorizontalLine
-        .backColor = RGB(215, 215, 215)
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-    End With
-End Sub
-
-' resources/functions/inject-code.txt ==============================================================
-
-Sub InjectCode(form As Object, code As String, Optional deepInject As Boolean = False)
-    With form.CodeModule
-        If Not deepInject Then
-            .InsertLines .CountOfLines + 1, code
-        Else
-            Dim lines() As String
-            Dim line As String
-            Dim i As Integer
-            
-            ' Split the code into individual lines
-            lines = Split(code, vbCrLf)
-            
-            ' Insert the opening With statement
-            .InsertLines .CountOfLines + 1, "With ThisWorkbook.VBProject.VBComponents(""" & form.Properties("Name") & """).CodeModule"
-            
-            ' Insert each line of code
-            For i = LBound(lines) To UBound(lines)
-                line = lines(i)
-                .InsertLines .CountOfLines + 1, ".InsertLines .CountOfLines + 1, " & Replace(line, "", """") & ""
-            Next i
-            
-            ' Insert the closing End With statement
-            .InsertLines .CountOfLines + 1, "End With"
-        End If
-    End With
-End Sub
-
-' resources/functions/label.txt ====================================================================
-
-Sub AddLabel(obj As Object, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional bold As Boolean = False, Optional color As Long = -1)
-    If color = -1 Then
-        color = RGB(0, 0, 0)
-    End If
-
-    Dim NewLabel As MSForms.Label
-    Set NewLabel = obj.Controls.Add("Forms.Label.1")
-    With NewLabel
-        .caption = caption
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        If bold Then
-            .Font.bold = True
-        End If
-        .ForeColor = color
-        .BackStyle = fmBackStyleTransparent
-    End With
-End Sub
-
-' resources/functions/list-box.txt =================================================================
-
-Sub AddListBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty, Optional value As Variant = Empty)
-    Dim NewListBox As MSForms.ListBox
-    Set NewListBox = obj.Controls.Add("Forms.ListBox.1")
-    With NewListBox
-        .name = name
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-        .Font.Size = font * 1.2
-        .Font.name = "Tahoma""
-        .enabled = enabled
-
-        If Not IsEmpty(listItems) Then
-            .List = listItems
-        End If
-
-        If Not IsEmpty(value) Then
-            .Value = value
-        End If
-    End With
-End Sub
-
-' resources/functions/option-box.txt ===============================================================
-
-Sub AddOptionBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
-    Dim NewBox As MSForms.Label
-    Set NewBox = obj.Controls.Add("Forms.Label.1")
-    With NewBox
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        .BackStyle = fmBackStyleTransparent
-        .BorderStyle = fmBorderStyleSingle
-        .BorderColor = RGB(225, 225, 225)
-    End With
-    
-    Dim NewOptionButton As MSForms.OptionButton
-    Set NewOptionButton = obj.Controls.Add("Forms.OptionButton.1")
-    With NewOptionButton
-        .name = name
-        .top = top + font / 3
-        .left = left + font / 4 * 3
-        .BackStyle = fmBackStyleTransparent
-        .enabled = enabled
-    End With
-End Sub
-
-' resources/functions/option-button.txt ============================================================
-
-Sub AddOptionButton(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
-    Dim NewOptionButton As MSForms.OptionButton
-    Set NewOptionButton = obj.Controls.Add("Forms.OptionButton.1")
-    With NewOptionButton
-        .name = name
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        .BackStyle = fmBackStyleOpaque
-        .enabled = enabled
-    End With
-End Sub
-
-' resources/functions/text-box.txt =================================================================
-
-Sub AddTextBox(obj As Object, name As String, placeholder As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
-    Dim NewTextBox As MSForms.TextBox
-    Set NewTextBox = obj.Controls.Add("Forms.TextBox.1")
-    With NewTextBox
-        .name = name
-        .text = placeholder
-        .top = top
-        .left = left
-        .width = width
-        .height = height
-        .Font.Size = font
-        .Font.name = "Tahoma"
-        .backColor = RGB(255, 255, 255)
-        .ForeColor = RGB(0, 0, 0)
-        .enabled = enabled
-    End With
-End Sub
-
 ' resources/form/setup.txt =========================================================================
 
 Sub OpenForm(Optional zoomLevel as Long = 1.4)
@@ -683,5 +412,276 @@ Sub OpenForm(Optional zoomLevel as Long = 1.4)
 
     'Delete the form
     ThisWorkbook.VBProject.VBComponents.Remove ThisForm
+End Sub
+
+' resources/components/background-fill.txt =========================================================
+
+Sub AddBackgroundFill(obj As Object, color As Long, top As Long, left As Long, width As Long, height As Long)
+    Dim NewBackgroundFill As MSForms.Label
+    Set NewBackgroundFill = obj.Controls.Add("Forms.Label.1")
+    With NewBackgroundFill
+        .backColor = color
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+    End With
+End Sub
+
+' resources/components/browse.txt ==================================================================
+
+Sub AddBrowse(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim ButtonWidth As Long
+    ButtonWidth = 6 * font
+
+    Dim LabelWidth As Long
+    LabelWidth = width - ButtonWidth
+    
+    Dim NewBox As MSForms.Label
+    Set NewBox = obj.Controls.Add("Forms.Label.1")
+    With NewBox
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleTransparent
+        .BorderStyle = fmBorderStyleSingle
+        .BorderColor = RGB(225, 225, 225)
+    End With
+    
+    Dim NewLabel As MSForms.Label
+    Set NewLabel = obj.Controls.Add("Forms.Label.1")
+    With NewLabel
+        .caption = "/path/to/folder"
+        .top = top + font / 3
+        .left = left + font / 4 * 3
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleTransparent
+        .ForeColor = RGB(225, 225, 225)
+    End With
+    
+    Dim NewButton As MSForms.CommandButton
+    Set NewButton = obj.Controls.Add("Forms.CommandButton.1")
+    With NewButton
+        .name = name
+        .caption = "Browse"
+        .Accelerator = "M"
+        .top = top
+        .left = left + LabelWidth
+        .width = ButtonWidth
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .backColor = RGB(255, 255, 255)
+        .ForeColor = RGB(0, 0, 0)
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/components/button.txt ==================================================================
+
+Sub AddButton(obj As Object, name As String, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewButton As MSForms.CommandButton
+    Set NewButton = obj.Controls.Add("Forms.CommandButton.1")
+    With NewButton
+        .name = name
+        .caption = caption
+        .Accelerator = "M"
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .backColor = RGB(255, 255, 255)
+        .ForeColor = RGB(0, 0, 0)
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/components/combo-box.txt ===============================================================
+
+Sub AddComboBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty)
+    Dim NewComboBox As MSForms.ComboBox
+    Set NewComboBox = obj.Controls.Add("Forms.ComboBox.1")
+    With NewComboBox
+        .name = name
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleOpaque
+        .enabled = enabled
+        
+        If Not IsEmpty(listItems) Then
+            .List = listItems
+        End If
+    End With
+End Sub
+
+' resources/components/horizontal-line.txt =========================================================
+
+Sub AddHorizontalLine(obj As Object, top As Long, left As Long, width As Long, height As Long)
+    Dim NewHorizontalLine As MSForms.Label
+    Set NewHorizontalLine = obj.Controls.Add("Forms.Label.1")
+    With NewHorizontalLine
+        .backColor = RGB(215, 215, 215)
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+    End With
+End Sub
+
+' resources/components/inject-code.txt =============================================================
+
+Sub InjectCode(form As Object, code As String, Optional deepInject As Boolean = False)
+    With form.CodeModule
+        If Not deepInject Then
+            .InsertLines .CountOfLines + 1, code
+        Else
+            Dim lines() As String
+            Dim line As String
+            Dim i As Integer
+            
+            ' Split the code into individual lines
+            lines = Split(code, vbCrLf)
+            
+            ' Insert the opening With statement
+            .InsertLines .CountOfLines + 1, "With ThisWorkbook.VBProject.VBComponents(""" & form.Properties("Name") & """).CodeModule"
+            
+            ' Insert each line of code
+            For i = LBound(lines) To UBound(lines)
+                line = lines(i)
+                .InsertLines .CountOfLines + 1, ".InsertLines .CountOfLines + 1, " & Replace(line, "", """") & ""
+            Next i
+            
+            ' Insert the closing End With statement
+            .InsertLines .CountOfLines + 1, "End With"
+        End If
+    End With
+End Sub
+
+' resources/components/label.txt ===================================================================
+
+Sub AddLabel(obj As Object, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional bold As Boolean = False, Optional color As Long = -1)
+    If color = -1 Then
+        color = RGB(0, 0, 0)
+    End If
+
+    Dim NewLabel As MSForms.Label
+    Set NewLabel = obj.Controls.Add("Forms.Label.1")
+    With NewLabel
+        .caption = caption
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        If bold Then
+            .Font.bold = True
+        End If
+        .ForeColor = color
+        .BackStyle = fmBackStyleTransparent
+    End With
+End Sub
+
+' resources/components/list-box.txt ================================================================
+
+Sub AddListBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty, Optional value As Variant = Empty)
+    Dim NewListBox As MSForms.ListBox
+    Set NewListBox = obj.Controls.Add("Forms.ListBox.1")
+    With NewListBox
+        .name = name
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font * 1.2
+        .Font.name = "Tahoma""
+        .enabled = enabled
+
+        If Not IsEmpty(listItems) Then
+            .List = listItems
+        End If
+
+        If Not IsEmpty(value) Then
+            .Value = value
+        End If
+    End With
+End Sub
+
+' resources/components/option-box.txt ==============================================================
+
+Sub AddOptionBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewBox As MSForms.Label
+    Set NewBox = obj.Controls.Add("Forms.Label.1")
+    With NewBox
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleTransparent
+        .BorderStyle = fmBorderStyleSingle
+        .BorderColor = RGB(225, 225, 225)
+    End With
+    
+    Dim NewOptionButton As MSForms.OptionButton
+    Set NewOptionButton = obj.Controls.Add("Forms.OptionButton.1")
+    With NewOptionButton
+        .name = name
+        .top = top + font / 3
+        .left = left + font / 4 * 3
+        .BackStyle = fmBackStyleTransparent
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/components/option-button.txt ===========================================================
+
+Sub AddOptionButton(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewOptionButton As MSForms.OptionButton
+    Set NewOptionButton = obj.Controls.Add("Forms.OptionButton.1")
+    With NewOptionButton
+        .name = name
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleOpaque
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/components/text-box.txt ================================================================
+
+Sub AddTextBox(obj As Object, name As String, placeholder As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewTextBox As MSForms.TextBox
+    Set NewTextBox = obj.Controls.Add("Forms.TextBox.1")
+    With NewTextBox
+        .name = name
+        .text = placeholder
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .backColor = RGB(255, 255, 255)
+        .ForeColor = RGB(0, 0, 0)
+        .enabled = enabled
+    End With
 End Sub
 

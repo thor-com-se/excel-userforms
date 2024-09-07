@@ -1,5 +1,4 @@
 [
-    "../functions/*",
     "../form/setup",
     "../form/sizes",
     "inputs/header",
@@ -9,5 +8,6 @@
     "inputs/buttons/*",
     "initialize",
     "../form/close",
-    "../form/show"
+    "../form/show",
+    "../components/*"
 ]

@@ -1,12 +1,13 @@
 [
-    "../functions/*",
     "../form/setup",
     "../form/sizes",
+    "../methods/*",
     "inputs/header/*",
     "inputs/folder/*",
     "inputs/divider",
     "inputs/buttons/*",
     "initialize",
     "../form/close",
-    "../form/show"
+    "../form/show",
+    "../components/*"
 ]
