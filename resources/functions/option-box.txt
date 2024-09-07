@@ -1,0 +1,25 @@
+Sub AddOptionBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewBox As MSForms.Label
+    Set NewBox = obj.Controls.Add("Forms.Label.1")
+    With NewBox
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleTransparent
+        .BorderStyle = fmBorderStyleSingle
+        .BorderColor = RGB(225, 225, 225)
+    End With
+    
+    Dim NewOptionButton As MSForms.OptionButton
+    Set NewOptionButton = obj.Controls.Add("Forms.OptionButton.1")
+    With NewOptionButton
+        .name = name
+        .top = top + font / 3
+        .left = left + font / 4 * 3
+        .BackStyle = fmBackStyleTransparent
+        .enabled = enabled
+    End With
+End Sub

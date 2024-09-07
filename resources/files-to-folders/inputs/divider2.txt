@@ -1,0 +1,2 @@
+    AddHorizontalLine ThisForm.designer, top:=FormHeight, left:=0, width:=FormWidth, height:=DividerHeight
+    FormHeight = FormHeight + DividerHeight

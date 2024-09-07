@@ -1,0 +1,26 @@
+Sub InjectCode(form As Object, code As String, Optional deepInject As Boolean = False)
+    With form.CodeModule
+        If Not deepInject Then
+            .InsertLines .CountOfLines + 1, code
+        Else
+            Dim lines() As String
+            Dim line As String
+            Dim i As Integer
+            
+            ' Split the code into individual lines
+            lines = Split(code, vbCrLf)
+            
+            ' Insert the opening With statement
+            .InsertLines .CountOfLines + 1, "With ThisWorkbook.VBProject.VBComponents(""" & form.Properties("Name") & """).CodeModule"
+            
+            ' Insert each line of code
+            For i = LBound(lines) To UBound(lines)
+                line = lines(i)
+                .InsertLines .CountOfLines + 1, ".InsertLines .CountOfLines + 1, " & Replace(line, "", """") & ""
+            Next i
+            
+            ' Insert the closing End With statement
+            .InsertLines .CountOfLines + 1, "End With"
+        End If
+    End With
+End Sub

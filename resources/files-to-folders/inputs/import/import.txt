@@ -1,0 +1,11 @@
+    FormHeight = FormHeight + Margin * 1.5
+    AddLabel ThisForm.designer, caption:="Source folder:", top:=FormHeight, left:=Margin, width:=OptionWidth * 2, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Type:", top:=FormHeight, left:=Margin + (OptionWidth * 2 + Margin), width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Target folder:", top:=FormHeight, left:=Margin + (OptionWidth * 2 + Margin) + (OptionWidth + Margin), width:=OptionWidth * 2, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Method:", top:=FormHeight, left:=Margin + (OptionWidth * 2 + Margin) * 2 + (OptionWidth + Margin), width:=OptionWidth, height:=FontHeight, font:=FontSize
+    FormHeight = FormHeight + FontHeight + Margin / 4
+    AddBrowse ThisForm.designer, name:="BrowseSourceFolder", top:=FormHeight, left:=Margin, width:=OptionWidth * 2, height:=InputHeight, font:=FontSize
+    AddComboBox ThisForm.designer, name:="ComboBoxFile", top:=FormHeight, left:=Margin + (OptionWidth * 2 + Margin), width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddBrowse ThisForm.designer, name:="BrowseTargetFolder", top:=FormHeight, left:=Margin + (OptionWidth * 2 + Margin) + (OptionWidth + Margin), width:=OptionWidth * 2, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxMethod", top:=FormHeight, left:=Margin + (OptionWidth * 2 + Margin) * 2 + (OptionWidth + Margin), width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    FormHeight = FormHeight + InputHeight + Margin * 1.5

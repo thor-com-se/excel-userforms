@@ -1,0 +1,2 @@
+    InjectCode ThisForm, "Private Sub BrowseSourceFolder_Click()"
+    InjectCode ThisForm, "End Sub"

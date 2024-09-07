@@ -1,0 +1,6 @@
+    InjectCode ThisForm, "Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)"
+    InjectCode ThisForm, "    If CloseMode = vbFormControlMenu Then"
+    InjectCode ThisForm, "        Cancel = True"
+    InjectCode ThisForm, "        MsgBox ""Action not completed."" & vbNewLine & ""Please use the buttons on this form."""
+    InjectCode ThisForm, "    End If"
+    InjectCode ThisForm, "End Sub"

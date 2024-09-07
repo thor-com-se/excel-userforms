@@ -1,0 +1,14 @@
+[
+    "../functions/*",
+    "../form/setup",
+    "../form/sizes",
+    "inputs/header/*",
+    "inputs/import/*",
+    "inputs/divider1",
+    "inputs/mapping",
+    "inputs/divider2",
+    "inputs/buttons/*",
+    "initialize",
+    "../form/close",
+    "../form/show"
+]

@@ -1,0 +1,11 @@
+Sub AddHorizontalLine(obj As Object, top As Long, left As Long, width As Long, height As Long)
+    Dim NewHorizontalLine As MSForms.Label
+    Set NewHorizontalLine = obj.Controls.Add("Forms.Label.1")
+    With NewHorizontalLine
+        .backColor = RGB(215, 215, 215)
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+    End With
+End Sub

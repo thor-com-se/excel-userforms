@@ -1,0 +1,9 @@
+    'Set width of form
+    ThisForm.Properties("Height") = FormHeight
+
+    'Show the form
+    VBA.UserForms.Add(ThisForm.name).Show
+
+    'Delete the form
+    ThisWorkbook.VBProject.VBComponents.Remove ThisForm
+End Sub

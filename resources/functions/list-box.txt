@@ -1,0 +1,22 @@
+Sub AddListBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty, Optional value As Variant = Empty)
+    Dim NewListBox As MSForms.ListBox
+    Set NewListBox = obj.Controls.Add("Forms.ListBox.1")
+    With NewListBox
+        .name = name
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font * 1.2
+        .Font.name = "Tahoma""
+        .enabled = enabled
+
+        If Not IsEmpty(listItems) Then
+            .List = listItems
+        End If
+
+        If Not IsEmpty(value) Then
+            .Value = value
+        End If
+    End With
+End Sub

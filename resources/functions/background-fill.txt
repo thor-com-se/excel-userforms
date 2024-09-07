@@ -1,0 +1,11 @@
+Sub AddBackgroundFill(obj As Object, color As Long, top As Long, left As Long, width As Long, height As Long)
+    Dim NewBackgroundFill As MSForms.Label
+    Set NewBackgroundFill = obj.Controls.Add("Forms.Label.1")
+    With NewBackgroundFill
+        .backColor = color
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+    End With
+End Sub

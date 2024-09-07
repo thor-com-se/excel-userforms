@@ -1,0 +1,19 @@
+Sub AddComboBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty)
+    Dim NewComboBox As MSForms.ComboBox
+    Set NewComboBox = obj.Controls.Add("Forms.ComboBox.1")
+    With NewComboBox
+        .name = name
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleOpaque
+        .enabled = enabled
+        
+        If Not IsEmpty(listItems) Then
+            .List = listItems
+        End If
+    End With
+End Sub

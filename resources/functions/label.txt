@@ -1,0 +1,22 @@
+Sub AddLabel(obj As Object, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional bold As Boolean = False, Optional color As Long = -1)
+    If color = -1 Then
+        color = RGB(0, 0, 0)
+    End If
+
+    Dim NewLabel As MSForms.Label
+    Set NewLabel = obj.Controls.Add("Forms.Label.1")
+    With NewLabel
+        .caption = caption
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        If bold Then
+            .Font.bold = True
+        End If
+        .ForeColor = color
+        .BackStyle = fmBackStyleTransparent
+    End With
+End Sub

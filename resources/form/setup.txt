@@ -1,0 +1,28 @@
+Sub OpenForm(Optional zoomLevel as Long = 1.4)
+    Dim ThisForm As Object
+    Dim X As Long
+    Dim Line As Long
+
+    'This is to stop screen flashing while creating form
+    Application.VBE.MainWindow.Visible = False
+
+    'Add UserForm
+    Set ThisForm = ThisWorkbook.VBProject.VBComponents.Add(3)
+    With ThisForm
+        .Properties("Caption") = "Files to folders
+        .Properties("ForeColor") = RGB(0, 0, 0)
+        .Properties("BackColor") = RGB(255, 255, 255)
+    End With
+
+    'Set font size
+    Dim FontSize As Long
+    FontSize = 8 * zoomLevel
+
+    'Set dimensions of form contents
+    Dim FormWidth As Long
+    FormWidth = FontSize * 50
+    Dim FormHeight As Long
+    FormHeight = 0
+
+    'Set width of form
+    ThisForm.Properties("Width") = FormWidth

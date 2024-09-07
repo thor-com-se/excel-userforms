@@ -1,0 +1,9 @@
+    FormHeight = FormHeight + Margin * 1.5
+    AddOptionBox ThisForm.designer, name:="OptionButtonCreate", top:=FormHeight, left:=Margin + (ContentWidth - Margin) / 2 + Margin, width:=(ContentWidth - Margin) / 2, height:=InputHeight + Margin, font:=FontSize, enabled:=False
+    AddLabel ThisForm.designer, caption:="Create folder with file name", top:=FormHeight + (InputHeight - FontHeight) / 2 + Margin / 2, left:=Margin + (ContentWidth - Margin) / 2 + Margin * 3, width:=(ContentWidth - Margin) / 2 - Margin * 2 - Margin / 2, height:=FontHeight, font:=FontSize
+    AddOptionBox ThisForm.designer, name:="OptionButtonMatch", top:=FormHeight + (InputHeight + Margin) + Margin / 2, left:=Margin + (ContentWidth - Margin) / 2 + Margin, width:=(ContentWidth - Margin) / 2, height:=InputHeight + Margin, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxMatch", top:=FormHeight + (InputHeight + Margin) + Margin / 2 + Margin / 2, left:=Margin + (ContentWidth - Margin) / 2 + Margin * 3, width:=(ContentWidth - Margin) / 2 - Margin * 2 - Margin / 2, height:=InputHeight, font:=FontSize, enabled:=False
+    AddOptionBox ThisForm.designer, name:="OptionButtonInput", top:=FormHeight + (InputHeight + Margin) * 2 + Margin, left:=Margin + (ContentWidth - Margin) / 2 + Margin, width:=(ContentWidth - Margin) / 2, height:=InputHeight + Margin, font:=FontSize, enabled:=False
+    AddTextBox ThisForm.designer, name:="TextBoxInput", placeholder:="Input a new folder name", top:=FormHeight + (InputHeight + Margin) * 2 + Margin + Margin / 2, left:=Margin + (ContentWidth - Margin) / 2 + Margin * 3, width:=(ContentWidth - Margin) / 2 - Margin * 2 - Margin / 2, height:=InputHeight, font:=FontSize, enabled:=False
+    AddListBox ThisForm.designer, name:="ListBoxMapping", top:=FormHeight, left:=Margin, width:=(ContentWidth - Margin) / 2, height:=ListHeight, font:=FontSize
+    FormHeight = FormHeight + ListHeight + Margin
