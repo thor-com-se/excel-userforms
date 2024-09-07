@@ -1,0 +1,8 @@
+    InjectCode ThisForm, "Private Sub UserForm_Initialize()"
+    InjectCode ThisForm, "   Dim wb as Workbook"
+    InjectCode ThisForm, "   For Each wb in Application.Workbooks"
+    InjectCode ThisForm, "       Me.ComboBoxFile.AddItem wb.Name"
+    InjectCode ThisForm, "       Me.ComboBoxFile.Value = wb.Name"
+    InjectCode ThisForm, "   Next wb"
+    InjectCode ThisForm, "   Me.ComboBoxFile.Enabled = True"
+    InjectCode ThisForm, "End Sub"

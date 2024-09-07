@@ -1,0 +1,3 @@
+    AddBackgroundFill ThisForm.designer, color:=RGB(33, 115, 70), top:=0, left:=0, width:=FormWidth, height:=HeaderHeight
+    AddLabel ThisForm.designer, caption:="Open links in default browser", top:=HeaderHeight - FontSize * 2 - Margin, left:=Margin, width:=ContentWidth, height:=FontSize * 2, bold:=True, font:=FontSize * 1.5, color:=RGB(255, 255, 255)
+    FormHeight = FormHeight + HeaderHeight

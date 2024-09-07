@@ -1,0 +1,4 @@
+    ListHeight = FontSize * 12 'Set list height
+    FormHeight = FormHeight + Margin
+    AddListBox ThisForm.designer, name:="ListLinks", top:=FormHeight, left:=Margin, width:=ContentWidth, height:=ListHeight, font:=FontSize
+    FormHeight = FormHeight + ListHeight + Margin

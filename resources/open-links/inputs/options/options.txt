@@ -1,0 +1,14 @@
+    OptionWidth = (FormWidth - Margin * 1.5 - Margin * 5) / 5 'Set width of options
+    FormHeight = FormHeight + Margin * 2
+    AddLabel ThisForm.designer, caption:="File:", top:=FormHeight, left:=Margin, width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Sheet:", top:=FormHeight, left:=Margin + (OptionWidth + Margin), width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Column:", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 2, width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="First row:", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 3, width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Domain (filter):", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 4, width:=OptionWidth, height:=FontHeight, font:=FontSize
+    FormHeight = FormHeight + FontHeight + Margin / 4
+    AddComboBox ThisForm.designer, name:="ComboBoxFile", top:=FormHeight, left:=Margin, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxSheet", top:=FormHeight, left:=Margin + (OptionWidth + Margin), width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxColumn", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 2, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxFirstRow", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 3, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxDomainFilter", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 4, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    FormHeight = FormHeight + InputHeight
