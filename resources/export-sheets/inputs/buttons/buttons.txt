@@ -1,0 +1,6 @@
+    AddBackgroundFill ThisForm.designer, color:=RGB(245, 245, 245), top:=FormHeight, left:=0, width:=FormWidth, height:=FormHeight + Margin + InputHeight + Margin
+    FormHeight = FormHeight + Margin
+    AddButton ThisForm.designer, name:="ButtonExportSheets", caption:="Export sheets", top:=FormHeight, left:=Margin, width:=ButtonWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddButton ThisForm.designer, name:="ButtonCloseForm", caption:="Close form", top:=FormHeight, left:=Margin + (ButtonWidth + Margin), width:=ButtonWidth, height:=InputHeight, font:=FontSize
+    AddButton ThisForm.designer, name:="ButtonExitDocument", caption:="Exit document", top:=FormHeight, left:=FormWidth - Margin * 1.5 - ButtonWidth, width:=ButtonWidth, height:=InputHeight, font:=FontSize
+    FormHeight = FormHeight + Margin + InputHeight + Margin + Margin

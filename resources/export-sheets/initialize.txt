@@ -1,0 +1,8 @@
+    InjectCode ThisForm, "Private setZoomLevel As Long"
+
+    InjectCode ThisForm, "Private Sub UserForm_Initialize()"
+    InjectCode ThisForm, "   Dim levels As Variant"
+    InjectCode ThisForm, "   levels = Array(""50%"", ""75%"", ""100%"", ""125%"", ""150%"", ""175%"", ""200%"", ""225%"", ""250%"")"
+    InjectCode ThisForm, "   Me.ComboBoxZoom.List = levels"
+    InjectCode ThisForm, "   setZoomLevel = " & zoomLevel
+    InjectCode ThisForm, "End Sub"

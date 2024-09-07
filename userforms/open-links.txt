@@ -1,0 +1,687 @@
+' resources/functions/background-fill.txt ==========================================================
+
+Sub AddBackgroundFill(obj As Object, color As Long, top As Long, left As Long, width As Long, height As Long)
+    Dim NewBackgroundFill As MSForms.Label
+    Set NewBackgroundFill = obj.Controls.Add("Forms.Label.1")
+    With NewBackgroundFill
+        .backColor = color
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+    End With
+End Sub
+
+' resources/functions/browse.txt ===================================================================
+
+Sub AddBrowse(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim ButtonWidth As Long
+    ButtonWidth = 6 * font
+
+    Dim LabelWidth As Long
+    LabelWidth = width - ButtonWidth
+    
+    Dim NewBox As MSForms.Label
+    Set NewBox = obj.Controls.Add("Forms.Label.1")
+    With NewBox
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleTransparent
+        .BorderStyle = fmBorderStyleSingle
+        .BorderColor = RGB(225, 225, 225)
+    End With
+    
+    Dim NewLabel As MSForms.Label
+    Set NewLabel = obj.Controls.Add("Forms.Label.1")
+    With NewLabel
+        .caption = "/path/to/folder"
+        .top = top + font / 3
+        .left = left + font / 4 * 3
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleTransparent
+        .ForeColor = RGB(225, 225, 225)
+    End With
+    
+    Dim NewButton As MSForms.CommandButton
+    Set NewButton = obj.Controls.Add("Forms.CommandButton.1")
+    With NewButton
+        .name = name
+        .caption = "Browse"
+        .Accelerator = "M"
+        .top = top
+        .left = left + LabelWidth
+        .width = ButtonWidth
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .backColor = RGB(255, 255, 255)
+        .ForeColor = RGB(0, 0, 0)
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/functions/button.txt ===================================================================
+
+Sub AddButton(obj As Object, name As String, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewButton As MSForms.CommandButton
+    Set NewButton = obj.Controls.Add("Forms.CommandButton.1")
+    With NewButton
+        .name = name
+        .caption = caption
+        .Accelerator = "M"
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .backColor = RGB(255, 255, 255)
+        .ForeColor = RGB(0, 0, 0)
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/functions/combo-box.txt ================================================================
+
+Sub AddComboBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty)
+    Dim NewComboBox As MSForms.ComboBox
+    Set NewComboBox = obj.Controls.Add("Forms.ComboBox.1")
+    With NewComboBox
+        .name = name
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleOpaque
+        .enabled = enabled
+        
+        If Not IsEmpty(listItems) Then
+            .List = listItems
+        End If
+    End With
+End Sub
+
+' resources/functions/horizontal-line.txt ==========================================================
+
+Sub AddHorizontalLine(obj As Object, top As Long, left As Long, width As Long, height As Long)
+    Dim NewHorizontalLine As MSForms.Label
+    Set NewHorizontalLine = obj.Controls.Add("Forms.Label.1")
+    With NewHorizontalLine
+        .backColor = RGB(215, 215, 215)
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+    End With
+End Sub
+
+' resources/functions/inject-code.txt ==============================================================
+
+Sub InjectCode(form As Object, code As String, Optional deepInject As Boolean = False)
+    With form.CodeModule
+        If Not deepInject Then
+            .InsertLines .CountOfLines + 1, code
+        Else
+            Dim lines() As String
+            Dim line As String
+            Dim i As Integer
+            
+            ' Split the code into individual lines
+            lines = Split(code, vbCrLf)
+            
+            ' Insert the opening With statement
+            .InsertLines .CountOfLines + 1, "With ThisWorkbook.VBProject.VBComponents(""" & form.Properties("Name") & """).CodeModule"
+            
+            ' Insert each line of code
+            For i = LBound(lines) To UBound(lines)
+                line = lines(i)
+                .InsertLines .CountOfLines + 1, ".InsertLines .CountOfLines + 1, " & Replace(line, "", """") & ""
+            Next i
+            
+            ' Insert the closing End With statement
+            .InsertLines .CountOfLines + 1, "End With"
+        End If
+    End With
+End Sub
+
+' resources/functions/label.txt ====================================================================
+
+Sub AddLabel(obj As Object, caption As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional bold As Boolean = False, Optional color As Long = -1)
+    If color = -1 Then
+        color = RGB(0, 0, 0)
+    End If
+
+    Dim NewLabel As MSForms.Label
+    Set NewLabel = obj.Controls.Add("Forms.Label.1")
+    With NewLabel
+        .caption = caption
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        If bold Then
+            .Font.bold = True
+        End If
+        .ForeColor = color
+        .BackStyle = fmBackStyleTransparent
+    End With
+End Sub
+
+' resources/functions/list-box.txt =================================================================
+
+Sub AddListBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True, Optional listItems As Variant = Empty, Optional value As Variant = Empty)
+    Dim NewListBox As MSForms.ListBox
+    Set NewListBox = obj.Controls.Add("Forms.ListBox.1")
+    With NewListBox
+        .name = name
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font * 1.2
+        .Font.name = "Tahoma""
+        .enabled = enabled
+
+        If Not IsEmpty(listItems) Then
+            .List = listItems
+        End If
+
+        If Not IsEmpty(value) Then
+            .Value = value
+        End If
+    End With
+End Sub
+
+' resources/functions/option-box.txt ===============================================================
+
+Sub AddOptionBox(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewBox As MSForms.Label
+    Set NewBox = obj.Controls.Add("Forms.Label.1")
+    With NewBox
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleTransparent
+        .BorderStyle = fmBorderStyleSingle
+        .BorderColor = RGB(225, 225, 225)
+    End With
+    
+    Dim NewOptionButton As MSForms.OptionButton
+    Set NewOptionButton = obj.Controls.Add("Forms.OptionButton.1")
+    With NewOptionButton
+        .name = name
+        .top = top + font / 3
+        .left = left + font / 4 * 3
+        .BackStyle = fmBackStyleTransparent
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/functions/option-button.txt ============================================================
+
+Sub AddOptionButton(obj As Object, name As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewOptionButton As MSForms.OptionButton
+    Set NewOptionButton = obj.Controls.Add("Forms.OptionButton.1")
+    With NewOptionButton
+        .name = name
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .BackStyle = fmBackStyleOpaque
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/functions/text-box.txt =================================================================
+
+Sub AddTextBox(obj As Object, name As String, placeholder As String, top As Long, left As Long, width As Long, height As Long, font As Long, Optional enabled As Boolean = True)
+    Dim NewTextBox As MSForms.TextBox
+    Set NewTextBox = obj.Controls.Add("Forms.TextBox.1")
+    With NewTextBox
+        .name = name
+        .text = placeholder
+        .top = top
+        .left = left
+        .width = width
+        .height = height
+        .Font.Size = font
+        .Font.name = "Tahoma"
+        .backColor = RGB(255, 255, 255)
+        .ForeColor = RGB(0, 0, 0)
+        .enabled = enabled
+    End With
+End Sub
+
+' resources/form/setup.txt =========================================================================
+
+Sub OpenForm(Optional zoomLevel as Long = 1.4)
+    Dim ThisForm As Object
+    Dim X As Long
+    Dim Line As Long
+
+    'This is to stop screen flashing while creating form
+    Application.VBE.MainWindow.Visible = False
+
+    'Add UserForm
+    Set ThisForm = ThisWorkbook.VBProject.VBComponents.Add(3)
+    With ThisForm
+        .Properties("Caption") = "Files to folders
+        .Properties("ForeColor") = RGB(0, 0, 0)
+        .Properties("BackColor") = RGB(255, 255, 255)
+    End With
+
+    'Set font size
+    Dim FontSize As Long
+    FontSize = 8 * zoomLevel
+
+    'Set dimensions of form contents
+    Dim FormWidth As Long
+    FormWidth = FontSize * 50
+    Dim FormHeight As Long
+    FormHeight = 0
+
+    'Set width of form
+    ThisForm.Properties("Width") = FormWidth
+
+' resources/form/sizes.txt =========================================================================
+
+    'Set font height
+    Dim FontHeight As Long
+    FontHeight = FontSize * 1.3
+
+    'Set title size
+    Dim TitleSize As Long
+    TitleSize = FontSize * 1.7
+
+    'Set title height
+    Dim TitleHeight As Long
+    TitleHeight = FontHeight * 1.7
+
+    'Set margin
+    Dim Margin As Long
+    Margin = FontSize * 1.25
+
+    'Set content width
+    Dim ContentWidth As Long
+    ContentWidth = FormWidth - Margin * 2.5
+
+    'Set header height
+    Dim HeaderHeight As Long
+    HeaderHeight = FontSize * 7
+
+    'Set input height
+    Dim InputHeight As Long
+    InputHeight = FontSize * 2
+
+    'Set width of options
+    Dim OptionWidth As Long
+    OptionWidth = (FormWidth - Margin * 1.5 - Margin * 4) / 6
+
+    'Set divider height
+    Dim DividerHeight As Long
+    DividerHeight = FontSize * 0.15
+
+    'Set list height
+    Dim ListHeight As Long
+    ListHeight = FontSize * 16
+    
+    'Set button width
+    Dim ButtonWidth As Long
+    ButtonWidth = FontSize * 10
+
+' resources/open-links/inputs/header.txt ===========================================================
+
+    AddBackgroundFill ThisForm.designer, color:=RGB(33, 115, 70), top:=0, left:=0, width:=FormWidth, height:=HeaderHeight
+    AddLabel ThisForm.designer, caption:="Open links in default browser", top:=HeaderHeight - FontSize * 2 - Margin, left:=Margin, width:=ContentWidth, height:=FontSize * 2, bold:=True, font:=FontSize * 1.5, color:=RGB(255, 255, 255)
+    FormHeight = FormHeight + HeaderHeight
+
+' resources/open-links/inputs/options/event-handlers.txt ===========================================
+
+    InjectCode ThisForm, "Private Sub ComboBoxColumn_Change()"
+    InjectCode ThisForm, " Dim wb As Workbook"
+    InjectCode ThisForm, " Dim ws As Worksheet"
+    InjectCode ThisForm, " Dim lastRow As Long"
+    InjectCode ThisForm, " Dim row As Long"
+    InjectCode ThisForm, " Dim selectedColumn As String"
+    InjectCode ThisForm, " Dim colNumber As Long"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, " Me.ComboBoxFirstRow.Clear"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, " On Error Resume Next"
+    InjectCode ThisForm, " Set wb = Application.Workbooks(Me.ComboBoxFile.Value)"
+    InjectCode ThisForm, " Set ws = wb.Worksheets(Me.ComboBoxSheet.Value)"
+    InjectCode ThisForm, " selectedColumn = Me.ComboBoxColumn.Value"
+    InjectCode ThisForm, " colNumber = ws.Range(selectedColumn & 1).Column"
+    InjectCode ThisForm, " On Error GoTo 0"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, " If Not ws Is Nothing And selectedColumn <> """" Then"
+    InjectCode ThisForm, "     lastRow = ws.Cells(ws.Rows.Count, colNumber).End(xlUp).Row"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "     For row = 1 To lastRow"
+    InjectCode ThisForm, "         Me.ComboBoxFirstRow.AddItem row"
+    InjectCode ThisForm, "         If Me.ComboBoxFirstRow.ListCount = 1 Then"
+    InjectCode ThisForm, "             Me.ComboBoxFirstRow.Value = row"
+    InjectCode ThisForm, "         End If"
+    InjectCode ThisForm, "     Next row"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "     Me.ComboBoxFirstRow.Enabled = True"
+    InjectCode ThisForm, " End If"
+    InjectCode ThisForm, "End Sub"
+
+    InjectCode ThisForm, "Sub ComboBoxDomainFilter_Change()"
+    InjectCode ThisForm, "    Dim selectedDomain As String"
+    InjectCode ThisForm, "    Dim wb As Workbook"
+    InjectCode ThisForm, "    Dim ws As Worksheet"
+    InjectCode ThisForm, "    Dim selectedColumn As String"
+    InjectCode ThisForm, "    Dim startRow As Long"
+    InjectCode ThisForm, "    Dim lastRow As Long"
+    InjectCode ThisForm, "    Dim currentRow As Long"
+    InjectCode ThisForm, "    Dim cellValue As String"
+    InjectCode ThisForm, "    Dim domain As String"
+    InjectCode ThisForm, "    Dim validURL As Boolean"
+    InjectCode ThisForm, "    Dim i As Long"
+    InjectCode ThisForm, "    Dim alreadyExists As Boolean"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    ' Clear the ListLinks list box"
+    InjectCode ThisForm, "    Me.ListLinks.Clear"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    selectedDomain = Me.ComboBoxDomainFilter.Value"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    ' Get the workbook and worksheet"
+    InjectCode ThisForm, "    On Error Resume Next"
+    InjectCode ThisForm, "    Set wb = Application.Workbooks(Me.ComboBoxFile.Value)"
+    InjectCode ThisForm, "    Set ws = wb.Worksheets(Me.ComboBoxSheet.Value)"
+    InjectCode ThisForm, "    selectedColumn = Me.ComboBoxColumn.Value"
+    InjectCode ThisForm, "    startRow = CLng(Me.ComboBoxFirstRow.Value)"
+    InjectCode ThisForm, "    On Error GoTo 0"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    ' Ensure the worksheet and column are valid"
+    InjectCode ThisForm, "    If Not ws Is Nothing And selectedColumn <> """" Then"
+    InjectCode ThisForm, "        ' Find the last row in the selected column"
+    InjectCode ThisForm, "        lastRow = ws.Cells(ws.Rows.Count, selectedColumn).End(xlUp).Row"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "        ' Loop through the rows and add matching URLs to ListLinks"
+    InjectCode ThisForm, "        For currentRow = startRow To lastRow"
+    InjectCode ThisForm, "            If Not IsEmpty(ws.Cells(currentRow, selectedColumn).Value) Then"
+    InjectCode ThisForm, "                cellValue = ws.Cells(currentRow, selectedColumn).Value"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                ' Check if the URL is valid"
+    InjectCode ThisForm, "                validURL = (Left(cellValue, 7) = ""http://"" Or Left(cellValue, 8) = ""https://"")"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                If validURL Then"
+    InjectCode ThisForm, "                    ' Extract the domain from the URL"
+    InjectCode ThisForm, "                    domain = Split(Split(cellValue, ""//"")(1), ""/"")(0)"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                    ' Remove the 'www.' prefix if it exists"
+    InjectCode ThisForm, "                    If Left(domain, 4) = ""www."" Then"
+    InjectCode ThisForm, "                        domain = Mid(domain, 5)"
+    InjectCode ThisForm, "                    End If"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                    ' If ComboBoxDomainFilter is blank or the domain matches, check for uniqueness and add the URL to ListLinks"
+    InjectCode ThisForm, "                    If selectedDomain = """" Or domain = selectedDomain Then"
+    InjectCode ThisForm, "                        ' Check if cellValue already exists in ListLinks"
+    InjectCode ThisForm, "                        alreadyExists = False"
+    InjectCode ThisForm, "                        For i = 0 To Me.ListLinks.ListCount - 1"
+    InjectCode ThisForm, "                            If Me.ListLinks.List(i) = cellValue Then"
+    InjectCode ThisForm, "                                alreadyExists = True"
+    InjectCode ThisForm, "                                Exit For"
+    InjectCode ThisForm, "                            End If"
+    InjectCode ThisForm, "                        Next i"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                        ' If not already exists, add the item"
+    InjectCode ThisForm, "                        If Not alreadyExists Then"
+    InjectCode ThisForm, "                            Me.ListLinks.AddItem cellValue"
+    InjectCode ThisForm, "                        End If"
+    InjectCode ThisForm, "                    End If"
+    InjectCode ThisForm, "                End If"
+    InjectCode ThisForm, "            End If"
+    InjectCode ThisForm, "        Next currentRow"
+    InjectCode ThisForm, "    End If"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    ' Enable the OpenLinks button if there are items in the ListLinks list box"
+    InjectCode ThisForm, "    Me.ButtonOpenLinks.Enabled = (Me.ListLinks.ListCount > 0)"
+    InjectCode ThisForm, "End Sub"
+
+    InjectCode ThisForm, "Private Sub ComboBoxFile_Change()"
+    InjectCode ThisForm, "   Dim wb As Workbook"
+    InjectCode ThisForm, "   Dim ws As Worksheet"
+    InjectCode ThisForm, "   Dim lastSheetName As String"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "   Me.ComboBoxSheet.Clear"
+    InjectCode ThisForm, "   On Error Resume Next"
+    InjectCode ThisForm, "   Set wb = Application.Workbooks(Me.ComboBoxFile.Value)"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "   On Error GoTo 0"
+    InjectCode ThisForm, "   If Not wb Is Nothing Then"
+    InjectCode ThisForm, "       lastSheetName = """""
+    InjectCode ThisForm, "       For Each ws In wb.Worksheets"
+    InjectCode ThisForm, "           Me.ComboBoxSheet.AddItem ws.Name"
+    InjectCode ThisForm, "            If Me.ComboBoxSheet.ListCount = 1 Then"
+    InjectCode ThisForm, "                Me.ComboBoxSheet.Value = ws.Name ' Set default to the first sheet"
+    InjectCode ThisForm, "            End If"
+    InjectCode ThisForm, "       Next ws"
+    InjectCode ThisForm, "       Me.ComboBoxSheet.Enabled = True"
+    InjectCode ThisForm, "   End If"
+    InjectCode ThisForm, "End Sub"
+
+    InjectCode ThisForm, "Sub ComboBoxFirstRow_Change()"
+    InjectCode ThisForm, "    Dim wb As Workbook"
+    InjectCode ThisForm, "    Dim ws As Worksheet"
+    InjectCode ThisForm, "    Dim selectedColumn As String"
+    InjectCode ThisForm, "    Dim startRow As Long"
+    InjectCode ThisForm, "    Dim lastRow As Long"
+    InjectCode ThisForm, "    Dim currentRow As Long"
+    InjectCode ThisForm, "    Dim cellValue As String"
+    InjectCode ThisForm, "    Dim domain As String"
+    InjectCode ThisForm, "    Dim itemExists As Boolean"
+    InjectCode ThisForm, "    Dim validURL As Boolean"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    ' Clear the ComboBoxDomainFilter combo box"
+    InjectCode ThisForm, "    Me.ComboBoxDomainFilter.Clear"
+    InjectCode ThisForm, "    Me.ComboBoxDomainFilter.AddItem """"" ' Add a blank option
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    ' Get the workbook and worksheet"
+    InjectCode ThisForm, "    On Error Resume Next"
+    InjectCode ThisForm, "    Set wb = Application.Workbooks(Me.ComboBoxFile.Value)"
+    InjectCode ThisForm, "    Set ws = wb.Worksheets(Me.ComboBoxSheet.Value)"
+    InjectCode ThisForm, "    selectedColumn = Me.ComboBoxColumn.Value"
+    InjectCode ThisForm, "    startRow = CLng(Me.ComboBoxFirstRow.Value)"
+    InjectCode ThisForm, "    On Error GoTo 0"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    ' Ensure the worksheet and column are valid"
+    InjectCode ThisForm, "    If Not ws Is Nothing And selectedColumn <> """" Then"
+    InjectCode ThisForm, "        ' Find the last row in the selected column"
+    InjectCode ThisForm, "        lastRow = ws.Cells(ws.Rows.Count, selectedColumn).End(xlUp).Row"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "        ' Loop through the rows from startRow to lastRow and add valid URL domains to ComboBoxDomainFilter"
+    InjectCode ThisForm, "        For currentRow = startRow To lastRow"
+    InjectCode ThisForm, "            If Not IsEmpty(ws.Cells(currentRow, selectedColumn).Value) Then"
+    InjectCode ThisForm, "                cellValue = ws.Cells(currentRow, selectedColumn).Value"
+    InjectCode ThisForm, "                itemExists = False"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                ' Check if the URL is valid"
+    InjectCode ThisForm, "                validURL = (Left(cellValue, 7) = ""http://"" Or Left(cellValue, 8) = ""https://"")"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                If validURL Then"
+    InjectCode ThisForm, "                    ' Extract the domain from the URL"
+    InjectCode ThisForm, "                    domain = Split(Split(cellValue, ""//"")(1), ""/"")(0)"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                    ' Remove the 'www.' prefix if it exists"
+    InjectCode ThisForm, "                    If Left(domain, 4) = ""www."" Then"
+    InjectCode ThisForm, "                        domain = Mid(domain, 5)"
+    InjectCode ThisForm, "                    End If"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                    ' Check if the domain already exists in the ComboBoxDomainFilter"
+    InjectCode ThisForm, "                    For i = 0 To Me.ComboBoxDomainFilter.ListCount - 1"
+    InjectCode ThisForm, "                        If Me.ComboBoxDomainFilter.List(i) = domain Then"
+    InjectCode ThisForm, "                            itemExists = True"
+    InjectCode ThisForm, "                            Exit For"
+    InjectCode ThisForm, "                        End If"
+    InjectCode ThisForm, "                    Next i"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "                    ' Add the domain if it does not already exist"
+    InjectCode ThisForm, "                    If Not itemExists Then"
+    InjectCode ThisForm, "                        Me.ComboBoxDomainFilter.AddItem domain"
+    InjectCode ThisForm, "                    End If"
+    InjectCode ThisForm, "                End If"
+    InjectCode ThisForm, "            End If"
+    InjectCode ThisForm, "        Next currentRow"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "        Me.ComboBoxDomainFilter.Enabled = True"
+    InjectCode ThisForm, "        ' Explicitly call ComboBoxDomainFilter_Change to populate ListLinks"
+    InjectCode ThisForm, "        Call ComboBoxDomainFilter_Change"
+    InjectCode ThisForm, "    End If"
+    InjectCode ThisForm, "End Sub"
+
+    InjectCode ThisForm, "Private Sub ComboBoxSheet_Change()"
+    InjectCode ThisForm, " Dim wb As Workbook"
+    InjectCode ThisForm, " Dim ws As Worksheet"
+    InjectCode ThisForm, " Dim lastCol As Long"
+    InjectCode ThisForm, " Dim col As Long"
+    InjectCode ThisForm, " Dim hasValue As Boolean"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, " Me.ComboBoxColumn.Clear"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, " On Error Resume Next"
+    InjectCode ThisForm, " Set wb = Application.Workbooks(Me.ComboBoxFile.Value)"
+    InjectCode ThisForm, " Set ws = wb.Worksheets(Me.ComboBoxSheet.Value)"
+    InjectCode ThisForm, " On Error GoTo 0"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, " If Not ws Is Nothing Then"
+    InjectCode ThisForm, "     lastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "     For col = 1 To lastCol"
+    InjectCode ThisForm, "         hasValue = Application.WorksheetFunction.CountA(ws.Columns(col)) > 0"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "         If hasValue Then"
+    InjectCode ThisForm, "             Me.ComboBoxColumn.AddItem Split(ws.Cells(1, col).Address, ""$"")(1)"
+    InjectCode ThisForm, "             If Me.ComboBoxColumn.ListCount = 1 Then"
+    InjectCode ThisForm, "              Me.ComboBoxColumn.Value = Split(ws.Cells(1, col).Address, ""$"")(1)"
+    InjectCode ThisForm, "             End If"
+    InjectCode ThisForm, "         End If"
+    InjectCode ThisForm, "     Next col"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "     Me.ComboBoxColumn.Enabled = True"
+    InjectCode ThisForm, " End If"
+    InjectCode ThisForm, "End Sub"
+
+' resources/open-links/inputs/options/options.txt ==================================================
+
+    OptionWidth = (FormWidth - Margin * 1.5 - Margin * 5) / 5 'Set width of options
+    FormHeight = FormHeight + Margin * 2
+    AddLabel ThisForm.designer, caption:="File:", top:=FormHeight, left:=Margin, width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Sheet:", top:=FormHeight, left:=Margin + (OptionWidth + Margin), width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Column:", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 2, width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="First row:", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 3, width:=OptionWidth, height:=FontHeight, font:=FontSize
+    AddLabel ThisForm.designer, caption:="Domain (filter):", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 4, width:=OptionWidth, height:=FontHeight, font:=FontSize
+    FormHeight = FormHeight + FontHeight + Margin / 4
+    AddComboBox ThisForm.designer, name:="ComboBoxFile", top:=FormHeight, left:=Margin, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxSheet", top:=FormHeight, left:=Margin + (OptionWidth + Margin), width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxColumn", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 2, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxFirstRow", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 3, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddComboBox ThisForm.designer, name:="ComboBoxDomainFilter", top:=FormHeight, left:=Margin + (OptionWidth + Margin) * 4, width:=OptionWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    FormHeight = FormHeight + InputHeight
+
+' resources/open-links/inputs/list.txt =============================================================
+
+    ListHeight = FontSize * 12 'Set list height
+    FormHeight = FormHeight + Margin
+    AddListBox ThisForm.designer, name:="ListLinks", top:=FormHeight, left:=Margin, width:=ContentWidth, height:=ListHeight, font:=FontSize
+    FormHeight = FormHeight + ListHeight + Margin
+
+' resources/open-links/inputs/divider.txt ==========================================================
+
+    AddHorizontalLine ThisForm.designer, top:=FormHeight, left:=0, width:=FormWidth, height:=DividerHeight
+    FormHeight = FormHeight + DividerHeight
+
+' resources/open-links/inputs/buttons/buttons.txt ==================================================
+
+    AddBackgroundFill ThisForm.designer, color:=RGB(245, 245, 245), top:=FormHeight, left:=0, width:=FormWidth, height:=FormHeight + Margin + InputHeight + Margin
+    FormHeight = FormHeight + Margin
+    AddButton ThisForm.designer, name:="ButtonOpenLinks", caption:="Open links", top:=FormHeight, left:=Margin, width:=ButtonWidth, height:=InputHeight, font:=FontSize, enabled:=False
+    AddButton ThisForm.designer, name:="ButtonCloseForm", caption:="Close form", top:=FormHeight, left:=Margin + (ButtonWidth + Margin), width:=ButtonWidth, height:=InputHeight, font:=FontSize
+    AddButton ThisForm.designer, name:="ButtonExitDocument", caption:="Exit document", top:=FormHeight, left:=FormWidth - Margin * 1.5 - ButtonWidth, width:=ButtonWidth, height:=InputHeight, font:=FontSize
+    FormHeight = FormHeight + Margin + InputHeight + Margin + Margin
+
+' resources/open-links/inputs/buttons/event-handlers.txt ===========================================
+
+    InjectCode ThisForm, "Private Sub ButtonOpenLinks_Click()"
+    InjectCode ThisForm, "    Dim i As Long"
+    InjectCode ThisForm, "    Dim url As String"
+    InjectCode ThisForm, "    Dim validURL As Boolean"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "    ' Loop through each item in the ListLinks list box"
+    InjectCode ThisForm, "    For i = 0 To Me.ListLinks.ListCount - 1"
+    InjectCode ThisForm, "        ' Get the URL from the list box"
+    InjectCode ThisForm, "        url = Me.ListLinks.List(i)"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "        ' Check if the URL is valid"
+    InjectCode ThisForm, "        validURL = (Left(url, 7) = ""http://"" Or Left(url, 8) = ""https://"")"
+    InjectCode ThisForm, ""
+    InjectCode ThisForm, "        ' If the URL is valid, open it in the default browser"
+    InjectCode ThisForm, "        If validURL Then"
+    InjectCode ThisForm, "            ThisWorkbook.FollowHyperlink Address:=url"
+    InjectCode ThisForm, "        End If"
+    InjectCode ThisForm, "    Next i"
+    InjectCode ThisForm, "End Sub"
+
+    InjectCode ThisForm, "Private Sub ButtonCloseForm_Click()"
+    InjectCode ThisForm, "    Unload Me"
+    InjectCode ThisForm, "    Application.WindowState = xlMaximized"
+    InjectCode ThisForm, "End Sub"
+
+    InjectCode ThisForm, "Private Sub ButtonExitDocument_Click()"
+    InjectCode ThisForm, "    Unload Me"
+    InjectCode ThisForm, "    ActiveWorkbook.Close SaveChanges:=False"
+    InjectCode ThisForm, "    Application.Quit"
+    InjectCode ThisForm, "End Sub"
+
+' resources/open-links/initialize.txt ==============================================================
+
+    InjectCode ThisForm, "Private Sub UserForm_Initialize()"
+    InjectCode ThisForm, "   Dim wb as Workbook"
+    InjectCode ThisForm, "   For Each wb in Application.Workbooks"
+    InjectCode ThisForm, "       Me.ComboBoxFile.AddItem wb.Name"
+    InjectCode ThisForm, "       Me.ComboBoxFile.Value = wb.Name"
+    InjectCode ThisForm, "   Next wb"
+    InjectCode ThisForm, "   Me.ComboBoxFile.Enabled = True"
+    InjectCode ThisForm, "End Sub"
+
+' resources/form/close.txt =========================================================================
+
+    InjectCode ThisForm, "Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)"
+    InjectCode ThisForm, "    If CloseMode = vbFormControlMenu Then"
+    InjectCode ThisForm, "        Cancel = True"
+    InjectCode ThisForm, "        MsgBox ""Action not completed."" & vbNewLine & ""Please use the buttons on this form."""
+    InjectCode ThisForm, "    End If"
+    InjectCode ThisForm, "End Sub"
+
+' resources/form/show.txt ==========================================================================
+
+    'Set width of form
+    ThisForm.Properties("Height") = FormHeight
+
+    'Show the form
+    VBA.UserForms.Add(ThisForm.name).Show
+
+    'Delete the form
+    ThisWorkbook.VBProject.VBComponents.Remove ThisForm
+End Sub
+

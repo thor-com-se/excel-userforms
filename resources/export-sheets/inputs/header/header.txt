@@ -1,0 +1,4 @@
+    AddBackgroundFill ThisForm.designer, color:=RGB(33, 115, 70), top:=0, left:=0, width:=FormWidth, height:=HeaderHeight
+    AddLabel ThisForm.designer, caption:="Export sheets to folder", top:=HeaderHeight - TitleHeight - Margin, left:=Margin, width:=ContentWidth, height:=TitleHeight, bold:=True, font:=TitleSize, color:=RGB(255, 255, 255)
+    AddComboBox ThisForm.designer, name:="ComboBoxZoom", top:=HeaderHeight - InputHeight - Margin, left:=Margin + ContentWidth - OptionWidth, width:=OptionWidth, height:=InputHeight, font:=FontSize
+    FormHeight = FormHeight + HeaderHeight

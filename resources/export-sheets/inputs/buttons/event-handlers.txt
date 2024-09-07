@@ -1,0 +1,13 @@
+    InjectCode ThisForm, "Private Sub ButtonCloseForm_Click()"
+    InjectCode ThisForm, "    Unload Me"
+    InjectCode ThisForm, "    Application.WindowState = xlMaximized"
+    InjectCode ThisForm, "End Sub"
+
+    InjectCode ThisForm, "Private Sub ButtonExportSheets_Click()"
+    InjectCode ThisForm, "End Sub"
+
+    InjectCode ThisForm, "Private Sub ButtonExitDocument_Click()"
+    InjectCode ThisForm, "    Unload Me"
+    InjectCode ThisForm, "    ActiveWorkbook.Close SaveChanges:=False"
+    InjectCode ThisForm, "    Application.Quit"
+    InjectCode ThisForm, "End Sub"

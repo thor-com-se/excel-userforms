@@ -1,0 +1,7 @@
+    InjectCode ThisForm, "Private Sub ComboBoxZoom_Change()"
+    InjectCode ThisForm, "   Dim newZoomLevel As Long"
+    InjectCode ThisForm, "   newZoomLevel = CSng(Replace(Me.ComboBoxZoom.Value, ""%"", """") / 100)"
+    InjectCode ThisForm, "   Me.Hide"
+    InjectCode ThisForm, "   Unload Me"
+    InjectCode ThisForm, "   OpenForm newZoomLevel"
+    InjectCode ThisForm, "End Sub"

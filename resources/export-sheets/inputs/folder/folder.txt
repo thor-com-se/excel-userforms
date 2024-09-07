@@ -1,0 +1,5 @@
+    FormHeight = FormHeight + Margin * 1.5
+    AddLabel ThisForm.designer, caption:="Folder:", top:=FormHeight, left:=Margin, width:=ContentWidth, height:=FontHeight, font:=FontSize
+    FormHeight = FormHeight + FontHeight + Margin / 4
+    AddBrowse ThisForm.designer, name:="BrowseFolder", top:=FormHeight, left:=Margin, width:=ContentWidth, height:=InputHeight, font:=FontSize
+    FormHeight = FormHeight + InputHeight + Margin * 1.5
