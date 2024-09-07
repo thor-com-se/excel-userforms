@@ -9,13 +9,12 @@ process_path() {
     local normalized_path=$2
     local output_file=$3
 
-    # Determine if the path is a wildcard or exact file
-    if [[ "$path" == *\* ]]; then
-        # Wildcard path
-        echo "            Handling wildcard path: $normalized_path"
+    # Check if the path ends with a '/' and treat it as a wildcard
+    if [[ "$path" == */ ]]; then
+        echo "            Handling directory path (treated as wildcard): $normalized_path"
 
-        # Expand wildcard and concatenate all .txt files in the directory
-        for txt_file in ${normalized_path%/*}/*.txt; do
+        # Expand and concatenate all .txt files in the directory
+        for txt_file in "$normalized_path"*.txt; do
             if [[ -f "$txt_file" ]]; then
                 echo "                Found .txt file: $txt_file"
 
@@ -31,51 +30,45 @@ process_path() {
                 echo "" >> "$output_file"  # Add a newline after each file content
                 echo "" >> "$output_file"  # Add an additional newline for separation
             else
-                echo "                No .txt files found in ${normalized_path%/*}"
+                echo "                No .txt files found in $normalized_path"
             fi
         done
     else
         # Handle exact file path
         if [[ -d "$normalized_path" ]]; then
-            # If it is a directory, list all .txt files in it
             for txt_file in "$normalized_path"/*.txt; do
                 if [[ -f "$txt_file" ]]; then
                     echo "                Found .txt file: $txt_file"
 
-                    # Insert filename with '=' padding line before the file content
                     header_text="' ${txt_file} "
                     padding=$(printf "%0.s=" {1..100})
                     header_line="${header_text}${padding:${#header_text}}"
                     echo "$header_line" >> "$output_file"
                     echo "" >> "$output_file"  # Newline after header
 
-                    # Concatenate file contents
                     cat "$txt_file" >> "$output_file"
-                    echo "" >> "$output_file"  # Add a newline after each file content
+                    echo "" >> "$output_file"  # Newline after content
                     echo "" >> "$output_file"  # Add an additional newline for separation
                 else
                     echo "                No .txt files found in $normalized_path"
                 fi
             done
         else
-            # Check if the path is a file without .txt extension
             if [[ ! "$normalized_path" == *.txt ]]; then
                 normalized_path="${normalized_path}.txt"
             fi
 
             if [[ -f "$normalized_path" ]]; then
                 echo "            Found exact .txt file: $normalized_path"
-                
-                # Insert filename with '=' padding line before the file content
+
                 header_text="' ${normalized_path} "
                 padding=$(printf "%0.s=" {1..100})
                 header_line="${header_text}${padding:${#header_text}}"
                 echo "$header_line" >> "$output_file"
                 echo "" >> "$output_file"  # Newline after header
 
-                # Concatenate file contents
                 cat "$normalized_path" >> "$output_file"
-                echo "" >> "$output_file"  # Add a newline after each file content
+                echo "" >> "$output_file"  # Newline after content
                 echo "" >> "$output_file"  # Add an additional newline for separation
             else
                 echo "            Exact .txt file not found: $normalized_path"
@@ -116,10 +109,9 @@ for folder in resources/userforms/*; do
                     normalized_path="$folder/$path"
                 fi
 
-                # Check if path is a directory or file
                 echo "        Processing path: $path (normalized to $normalized_path)"
                 
-                # Handle paths with or without wildcard
+                # Handle paths ending with '/' as wildcards
                 process_path "$path" "$normalized_path" "$output_file"
             done
 
